@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css">
+    <link rel="stylesheet" href="/stylesheets/main.css">
+    <script src="https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js"></script>
+    <script src="/javascript/main.js"></script>
+    <title>Autodesk Forge: Disconnected Viewing Demo</title>
+</head>
+<body>
+    <div id="viewer"></div>
+    <div id="overlay">
+        <img src="/images/forge-logo.png" alt="Autodesk Forge" width="150px">
+        <h4>Disconnected Viewing</h4>
+        <ul id="models"></ul>
+        <hr />
+        <table id="debug">
+            <tr><td>Ready:</td><td id="debug-ready">false</td></tr>
+            <tr><td>Cached:</td><td id="debug-cached"></td></tr>
+            <tr><td>Quota:</td><td id="debug-quota">N/A</td></tr>
+        </table>
+        <div id="debug-toggle">Debug ▲</div>
+    </div>
+</body>
+</html>

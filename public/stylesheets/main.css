@@ -1,0 +1,66 @@
+@font-face {
+    font-family: 'Artifakt';
+    src: url('/fonts/Artifakt_Element_Regular.woff2') format('woff2');
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    width: 100vw;
+    height: 100vh;
+    font-family: 'Artifakt', sans-serif;
+}
+
+#viewer-error {
+    position: absolute;
+    display: flex;
+    width: 100vw;
+    height: 100vh;
+    background: lightgray;
+    z-index: 1;
+}
+
+#viewer-error > span {
+    margin: auto;
+    text-align: center;
+    font-size: 2em;
+    color: darkgray;
+}
+
+#overlay {
+    position: absolute;
+    left: 1em;
+    top: 1em;
+    padding: 1em;
+    background-color: rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.1);
+    z-index: 2;
+}
+
+#overlay > h4 {
+    margin: 0.1em;
+}
+
+#models .model-name {
+    cursor: pointer;
+    display: inline;
+}
+
+#models .model-status {
+    cursor: pointer;
+    color: gray;
+}
+
+#models > li.active > .model-name {
+    text-decoration: underline;
+}
+
+#debug-toggle {
+    text-align: center;
+    cursor: pointer;
+}
+
+#debug-toggle, #debug {
+    font-size: smaller;
+    color: gray;
+}
