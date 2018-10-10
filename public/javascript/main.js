@@ -94,10 +94,11 @@ function updateOverlay() {
                 while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
                 const cached = localStorage.getItem(urn); // Check local storage if this URN has been cached
                 const active = urn === currentUrn;
+                const online = ('onLine' in navigator) ? navigator.onLine : true;
                 return `
                     <li class="${active ? 'active' : ''}" data-urn="${urn}">
                         <div class="model-name" data-action="open">${object.objectKey}</div>
-                        <div class="model-status" style="display:${active || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
+                        <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
                     </li>
                 `;
             }).join('\n');
