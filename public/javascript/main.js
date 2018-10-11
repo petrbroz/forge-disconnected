@@ -77,31 +77,31 @@ function updateOverlay() {
     // Update the number of cached URLs
     submitWorkerTask({ operation: 'LIST_CACHES' })
         .then((res) => {
-            document.getElementById('debug-cached').innerHTML = res.urls.length;
-            console.log('Cached requests', res);
+            const cachedUrls = res.urls;
+            document.getElementById('debug-cached').innerHTML = cachedUrls.length;
+            console.log('Cached requests', cachedUrls);
+            // Update list of viewable models
+            fetch(ListModelsEndpoint)
+                .then((response) => response.json())
+                .then((objects) => {
+                    document.querySelector('#models').innerHTML = objects.map(function(object) {
+                        let urn = btoa(object.objectId);
+                        while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
+                        const cached = cachedUrls.filter((url) => url.includes(urn)).length > 0; // See if the URN is in any of the cached URLs
+                        const active = urn === currentUrn;
+                        const online = ('onLine' in navigator) ? navigator.onLine : true;
+                        return `
+                            <li class="${active ? 'active' : ''}" data-urn="${urn}">
+                                <div class="model-name" data-action="open">${object.objectKey}</div>
+                                <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
+                            </li>
+                        `;
+                    }).join('\n');
+                });
         })
         .catch((err) => {
             document.getElementById('debug-cached').innerHTML = 'N/A';
             console.error('Cached requests could not be listed', err);
-        });
-
-    // Update list of viewable models
-    fetch(ListModelsEndpoint)
-        .then((response) => response.json())
-        .then((objects) => {
-            document.querySelector('#models').innerHTML = objects.map(function(object) {
-                let urn = btoa(object.objectId);
-                while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
-                const cached = localStorage.getItem(urn); // Check local storage if this URN has been cached
-                const active = urn === currentUrn;
-                const online = ('onLine' in navigator) ? navigator.onLine : true;
-                return `
-                    <li class="${active ? 'active' : ''}" data-urn="${urn}">
-                        <div class="model-name" data-action="open">${object.objectKey}</div>
-                        <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
-                    </li>
-                `;
-            }).join('\n');
         });
 }
 
@@ -153,7 +153,6 @@ function cacheModel(urn) {
     submitWorkerTask({ operation: 'CACHE_URN', urn: urn, access_token: accessToken })
         .then((res) => {
             console.log('Model cached successfully', res);
-            localStorage.setItem(urn, 'cached'); // Mark the urn as cached in local storage
             updateOverlay();
         })
         .catch((err) => {
@@ -170,7 +169,6 @@ function clearCache(urn) {
     submitWorkerTask({ operation: 'CLEAR_URN', urn: urn })
         .then((res) => {
             console.log('Model cache cleared successfully', res);
-            localStorage.removeItem(urn);
             updateOverlay();
         })
         .catch((err) => {
