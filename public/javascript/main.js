@@ -63,7 +63,7 @@ function initOverlay() {
 /**
  * Updates the overlay UI.
  */
-function updateOverlay() {
+async function updateOverlay() {
     // If [Storage Manager API](https://developer.mozilla.org/en-US/docs/Web/API/StorageManager)
     // is available, update the used/quota numbers
     if ('storage' in navigator) {
@@ -74,35 +74,31 @@ function updateOverlay() {
         });
     }
 
-    // Update the number of cached URLs
-    submitWorkerTask({ operation: 'LIST_CACHES' })
-        .then((res) => {
-            const cachedUrls = res.urls;
-            document.getElementById('debug-cached').innerHTML = cachedUrls.length;
-            console.log('Cached requests', cachedUrls);
-            // Update list of viewable models
-            fetch(ListModelsEndpoint)
-                .then((response) => response.json())
-                .then((objects) => {
-                    document.querySelector('#models').innerHTML = objects.map(function(object) {
-                        let urn = btoa(object.objectId);
-                        while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
-                        const cached = cachedUrls.filter((url) => url.includes(urn)).length > 0; // See if the URN is in any of the cached URLs
-                        const active = urn === currentUrn;
-                        const online = ('onLine' in navigator) ? navigator.onLine : true;
-                        return `
-                            <li class="${active ? 'active' : ''}" data-urn="${urn}">
-                                <div class="model-name" data-action="open">${object.objectKey}</div>
-                                <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
-                            </li>
-                        `;
-                    }).join('\n');
-                });
-        })
-        .catch((err) => {
-            document.getElementById('debug-cached').innerHTML = 'N/A';
-            console.error('Cached requests could not be listed', err);
-        });
+    try {
+        // Update the number of cached URLs
+        const result = await submitWorkerTask({ operation: 'LIST_CACHES' });
+        const cachedUrls = result.urls;
+        document.getElementById('debug-cached').innerHTML = cachedUrls.length;
+        // Update list of viewable models
+        const response = await fetch(ListModelsEndpoint);
+        const objects = await response.json();
+        document.querySelector('#models').innerHTML = objects.map((object) => {
+            let urn = btoa(object.objectId);
+            while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
+            const cached = cachedUrls.filter((url) => url.includes(urn)).length > 0; // See if the URN is in any of the cached URLs
+            const active = urn === currentUrn;
+            const online = ('onLine' in navigator) ? navigator.onLine : true;
+            return `
+                <li class="${active ? 'active' : ''}" data-urn="${urn}">
+                    <div class="model-name" data-action="open">${object.objectKey}</div>
+                    <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
+                </li>
+            `;
+        }).join('\n');
+    } catch (err) {
+        document.getElementById('debug-cached').innerHTML = 'N/A';
+        console.error('Error when updating the UI', err);
+    }
 }
 
 /**
@@ -148,43 +144,43 @@ function loadModel(urn) {
 /**
  * Asks service worker to cache given URN.
  */
-function cacheModel(urn) {
+async function cacheModel(urn) {
     document.querySelector(`#overlay > ul > li[data-urn="${urn}"] > .model-status`).innerHTML = '(caching...)';
-    submitWorkerTask({ operation: 'CACHE_URN', urn: urn, access_token: accessToken })
-        .then((res) => {
-            console.log('Model cached successfully', res);
-            updateOverlay();
-        })
-        .catch((err) => {
-            console.error('Could not cache model', err);
-            updateOverlay();
-        });
+    try {
+        const result = await submitWorkerTask({ operation: 'CACHE_URN', urn: urn, access_token: accessToken });
+        console.log('Model cached successfully', result);
+    } catch(err) {
+        console.error('Could not cache model', err);
+    } finally {
+        updateOverlay();
+    }
 }
 
 /**
  * Asks service worker to clear all cached requests related to given URN.
  */
-function clearCache(urn) {
+async function clearCache(urn) {
     document.querySelector(`#overlay > ul > li[data-urn="${urn}"] > .model-status`).innerHTML = '(clearing...)';
-    submitWorkerTask({ operation: 'CLEAR_URN', urn: urn })
-        .then((res) => {
-            console.log('Model cache cleared successfully', res);
-            updateOverlay();
-        })
-        .catch((err) => {
-            console.error('Could not be clear model cache', err);
-            updateOverlay();
-        });
+    try {
+        const result = await submitWorkerTask({ operation: 'CLEAR_URN', urn: urn });
+        console.log('Model cache cleared successfully', result);
+    } catch(err) {
+        console.error('Could not be clear model cache', err);
+    } finally {
+        updateOverlay();
+    }
 }
 
 /**
  * Initializes service worker.
  */
-function initServiceWorker() {
-    navigator.serviceWorker
-        .register('/service-worker.js')
-        .then(function(reg) { console.log('Service worker registered', reg.scope); })
-        .catch(function(err) { console.error('Could not register service worker', err); });
+async function initServiceWorker() {
+    try {
+        const registration = await navigator.serviceWorker.register('/service-worker.js');
+        console.log('Service worker registered', registration.scope);
+    } catch (err) {
+        console.error('Could not register service worker', err);
+    }
 }
 
 /**
