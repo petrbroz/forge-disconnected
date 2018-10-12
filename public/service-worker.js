@@ -1,4 +1,4 @@
-const CACHE_NAME = 'forge-disconnected-v2';
+const CACHE_NAME = 'forge-disconnected-v3';
 const MODEL_DERIVATIVE_PATH = 'developer.api.autodesk.com/derivativeservice/v2';
 
 const STATIC_URLS = [
@@ -11,19 +11,65 @@ const STATIC_URLS = [
     'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/style.css',
     'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/viewer3D.js',
     'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/lmvworker.js',
-    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/locales/en/allstrings.json'
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/locales/en/allstrings.json',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/CityNight_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/CityNight_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/CoolLight_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/CoolLight_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/DarkSky_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/DarkSky_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/GreyRoom_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/GreyRoom_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/GridLight_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/GridLight_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Harbor_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Harbor_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/IDViz_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/IDViz_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/InfinityPool_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/InfinityPool_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Night_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Night_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Parking_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Parking_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/PhotoBooth_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/PhotoBooth_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Plaza_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Plaza_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Reflection_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/Reflection_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/RimHighlights_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/RimHighlights_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/RiverRoad_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/RiverRoad_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SharpHighlights_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SharpHighlights_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SnowField_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SnowField_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SoftLight_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/SoftLight_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/TranquilityBlue_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/TranquilityBlue_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/WarmLight_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/WarmLight_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/boardwalk_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/boardwalk_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/crossroads_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/crossroads_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/field_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/field_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/glacier_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/glacier_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/riverbank_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/riverbank_mipdrop.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/seaport_irr.logluv.dds',
+    'https://developer.api.autodesk.com/modelderivative/v2/viewers/6.*/res/environments/seaport_mipdrop.logluv.dds'
 ];
 
 const API_URLS = [
     '/api/token',
     '/api/models'
 ];
-
-// NOTE: worker state should ideally be persisted somewhere (IndexedDB),
-// but for now we just keep it in memory for the duration of the worker's lifecycle.
-let config = {
-    recent: new Set() // Collection of recently visited Model Derivative API endpoints
-};
 
 self.addEventListener('install', function(event) {
     console.log('Install event', event);
@@ -63,19 +109,16 @@ async function activateAsync() {
 }
 
 async function fetchAsync(event) {
-    const match = await caches.match(event.request);
+    const match = await caches.match(event.request.url, { ignoreSearch: true });
+    // If there's a match, return it
     if (match) {
-        // Try and update the cache while we're returning the match
-        caches.open(CACHE_NAME)
-            .then((cache) => cache.add(event.request))
-            .catch((err) => console.log('Cache not updated, but that\'s ok...', err));
+        // If this is a static asset or known API, try updating the cache as well
+        if (STATIC_URLS.includes(event.request.url) || API_URLS.includes(event.request.url)) {
+            caches.open(CACHE_NAME)
+                .then((cache) => cache.add(event.request))
+                .catch((err) => console.log('Cache not updated, but that\'s ok...', err));
+        }
         return match;
-    }
-
-    // If this is a request to Model Derivative API, remember the url
-    // in case we want to cache it later
-    if (event.request.url.includes(MODEL_DERIVATIVE_PATH)) {
-        config.recent.add(event.request.url);
     }
 
     return fetch(event.request);
@@ -112,23 +155,26 @@ async function messageAsync(event) {
 
 async function cacheUrn(urn, access_token) {
     console.log('Caching', urn);
+    // First, ask our server for all derivatives in this URN, and their file URLs
+    const baseUrl = 'https://developer.api.autodesk.com/derivativeservice/v2';
+    const res = await fetch(`/api/models/${urn}/files`);
+    const derivatives = await res.json();
+    // Prepare fetch requests to cache all the URLs
     const cache = await caches.open(CACHE_NAME);
-
-    // Just to be safe, update the static URLs, too
-    await cache.addAll(STATIC_URLS);
-    await cache.addAll(API_URLS);
-
-    const urls = Array.from(config.recent).filter(entry => entry.includes(urn));
-    await Promise.all(urls.map((url) => {
-        return fetch(url, { headers: { 'Authorization': 'Bearer ' + access_token } })
-            .then((response) => {
-                if (response.ok) {
-                    return cache.put(url, response);
-                } else {
-                    throw new Error(response.statusText);
-                }
-            });
-    }));
+    const options = { headers: { 'Authorization': 'Bearer ' + access_token } };
+    const fetches = [];
+    const manifestUrl = `${baseUrl}/manifest/${urn}`;
+    fetches.push(fetch(manifestUrl, options).then(resp => cache.put(manifestUrl, resp)).then(() => manifestUrl));
+    for (const derivative of derivatives) {
+        const derivUrl = baseUrl + '/derivatives/' + encodeURIComponent(derivative.urn);
+        fetches.push(fetch(derivUrl, options).then(resp => cache.put(derivUrl, resp)).then(() => derivUrl));
+        for (const file of derivative.files) {
+            const fileUrl = baseUrl + '/derivatives/' + encodeURIComponent(derivative.basePath + file);
+            fetches.push(fetch(fileUrl, options).then(resp => cache.put(fileUrl, resp)).then(() => fileUrl));
+        }
+    }
+    // Fetch and cache all URLs in parallel
+    const urls = await Promise.all(fetches);
     return urls;
 }
 
