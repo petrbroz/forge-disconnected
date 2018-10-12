@@ -120,8 +120,18 @@ async function activateAsync() {
 }
 
 async function fetchAsync(event) {
+    // When requesting an access token, try getting a fresh one first
+    if (event.request.url.endsWith('/api/token')) {
+        try {
+            const response = await fetch(event.request);
+            return response;
+        } catch(err) {
+            console.log('Could not fetch new token, falling back to cache.', err);
+        }
+    }
+
+    // If there's a cache match, return it
     const match = await caches.match(event.request.url, { ignoreSearch: true });
-    // If there's a match, return it
     if (match) {
         // If this is a static asset or known API, try updating the cache as well
         if (STATIC_URLS.includes(event.request.url) || API_URLS.includes(event.request.url)) {
