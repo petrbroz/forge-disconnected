@@ -91,7 +91,7 @@ async function updateOverlay() {
             return `
                 <li class="${active ? 'active' : ''}" data-urn="${urn}">
                     <div class="model-name" data-action="open">${object.objectKey}</div>
-                    <div class="model-status" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
+                    <div class="model-status" style="display:${online || cached ? 'inline' : 'none'}" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
                 </li>
             `;
         }).join('\n');
