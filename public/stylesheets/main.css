@@ -49,6 +49,7 @@ body {
 #models .model-status {
     cursor: pointer;
     color: gray;
+    display: inline;
 }
 
 #models > li.active > .model-name {

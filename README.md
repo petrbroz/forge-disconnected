@@ -21,21 +21,19 @@ has now been successfully cached
 
 ## Caching strategy
 
-Every URN typically references a number of external files that are not known beforehand,
-so we need a way to identify all these files in order to cache them when needed.
-In this sample application, the service worker is collecting a list of all recent
-requests with `developer.api.autodesk.com/derivativeservice/v2` in their URL.
-Later on, when we want to cache a specific URN, we send a message to the service worker,
-asking it to cache all the recently visited URLs related to this URN string.
-Similarly, when we want to clear the cache for a specific URN, we ask the service worker
-to remove all cached URLs with the URN string in them.
+Static assets and known APIs are cached immediately when the service worker is installed,
+see the `STATIC_URLS` and `API_URLS` constants in the worker script.
 
-One of the obvious disadvantages of this approach is that you have to load
-the model in the viewer before being able to cache it. A possible solution
-to avoid this problem would be to mimic the viewer's loading logic
-(or leverage the viewer's loading code if it was available via some API),
-and define a list of all URLs needed for a specific URN document.
-This list could then be sent to the service worker and cached.
+> Note that in our case we only cache a subset of the viewer's assets, e.g., only two
+environments are cached: _Sharp Highlighs_ and _Boardwalk_. If you want to include
+other static assets, perhaps including your own viewer extensions, don't forget
+to include them in the list.
+
+A single document in Forge typically generates multiple derivatives, and derivatives
+themselves often reference additional assets. We need a way to identify these assets
+in order to cache them when needed. In this sample application, the server provides
+a `GET /api/models/:urn/files` endpoint which is inspired by https://extract.autodesk.io
+and - given a document URN - provides a list of URLS for all derivatives and their assets.
 
 ## Known issues & gotchas
 
@@ -46,4 +44,4 @@ is when serving from localhost in which case it can be HTTP
     as of now (with Chrome version 69.0.3497.100), localhost is working fine again
 - Service worker can only manage requests in its own subpath; for example,
 if you serve your service worker script from _/javascript/service-worker.js_,
-it won't be able to detect requests to _/stylesheets/main.css_
+it won't be able to intercept requests to _/stylesheets/main.css_

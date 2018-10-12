@@ -85,13 +85,13 @@ async function updateOverlay() {
         document.querySelector('#models').innerHTML = objects.map((object) => {
             let urn = btoa(object.objectId);
             while (urn.endsWith('=')) { urn = urn.substr(0, urn.length - 1); } // Trim the '=' padding at the end
-            const cached = cachedUrls.filter((url) => url.includes(urn)).length > 0; // See if the URN is in any of the cached URLs
             const active = urn === currentUrn;
+            const cached = cachedUrls.filter((url) => url.includes(urn)).length > 0; // See if the URN is in any of the cached URLs
             const online = ('onLine' in navigator) ? navigator.onLine : true;
             return `
                 <li class="${active ? 'active' : ''}" data-urn="${urn}">
                     <div class="model-name" data-action="open">${object.objectKey}</div>
-                    <div class="model-status" style="display:${(active && online) || cached ? 'inline' : 'none'};" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
+                    <div class="model-status" data-action="${cached ? 'clear' : 'cache'}">${cached ? '★' : '☆'}</div>
                 </li>
             `;
         }).join('\n');
