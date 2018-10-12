@@ -135,9 +135,9 @@ async function getDerivativesSVF(urn, token) {
         .filter(uri => uri.indexOf('embed:/') === -1);
 }
 
-async function getDerivativesF2D(item) {
+async function getDerivativesF2D(item, token) {
     const manifestPath = item.basePath + 'manifest.json.gz';
-    const data = await getDerivative(manifestPath);
+    const data = await getDerivative(manifestPath, token);
     const manifestData = zlib.gunzipSync(data);
     const manifest = JSON.parse(manifestData.toString('utf8'));
     if (!manifest.assets) {
