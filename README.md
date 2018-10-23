@@ -19,6 +19,23 @@ has now been successfully cached
 - Go offline and open any of the models with `★` next to their name
 - Click on any of the `★` symbols to clear the cache for the corresponding model
 
+### Debugging
+
+In Chrome, the _Application_ tab of the DevTools provides many useful tools for working
+with service workers. The _Service Workers_ section shows any running workers, provides
+links to their source code, and allows you to update or unregister them. In the _Cache Storage_
+section you'll find the cache objects associated with the corresponding site.
+
+<img src="https://petrbroz.github.io/forge-disconnected/assets/chrome-serviceworkers.png" alt="Chrome - Service Workers" width="500">
+
+<img src="https://petrbroz.github.io/forge-disconnected/assets/chrome-caches.png" alt="Chrome - Cache Objects" width="500">
+
+In Firefox, you can use the [about:serviceworkers](about:serviceworkers) or
+[about:debugging#workers](about:debugging#workers) URL to get a detailed information
+about service workers currently registered for various websites.
+
+<img src="https://petrbroz.github.io/forge-disconnected/assets/firefox-serviceworkers.png" alt="Firefox - Service Workers" width="500">
+
 ## Caching strategy
 
 Static assets and known APIs are cached immediately when the service worker is installed,
