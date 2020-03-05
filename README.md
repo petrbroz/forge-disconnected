@@ -4,7 +4,9 @@ Sample [Autodesk Forge](https://forge.autodesk.com/) application using
 [Service Workers](https://developer.mozilla.org/en-US/docs/Web/API/Service_Worker_API)
 and [Cache](https://developer.mozilla.org/en-US/docs/Web/API/Cache) APIs to provide
 a limited offline support, allowing you to cache selected models and view them
-without internet connection. Live demo is available at https://forge-offline.herokuapp.com.
+without internet connection.
+
+Live demo is available at https://forge-disconnected.autodesk.io.
 
 ## Running locally
 
