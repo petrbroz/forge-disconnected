@@ -113,7 +113,7 @@ function getPathInfo(encodedURN) {
 }
 
 async function getDerivative(urn, token) {
-    const res = await fetch(BaseUrl + `/derivativeservice/v2/derivatives/${urn}`, {
+    const res = await fetch(BaseUrl + `/derivativeservice/v2/derivatives/${encodeURIComponent(urn)}`, {
         compress: true,
         headers: { 'Authorization': 'Bearer ' + token }
     });
